@@ -2,7 +2,7 @@
 @import "_animation";
 
 html {
-  background: black;
+  background: #449BD1;
 }
 
 .container {
@@ -10,10 +10,11 @@ html {
   overflow: hidden;
   position: absolute;
   top: 50%;
-  width: 910px;
-  height: 479px;
-  background: url('http://assets.sbnation.com/assets/1608607/Screen_Shot_2012-08-06_at_12.23.43_PM.jpeg') no-repeat;
-  margin-left: -455px;
+  width: 320px;
+  height: 480px;
+  background: url('../assets/background.jpg') no-repeat;
+  background-color: red;
+  margin-left: -160px;
   margin-top: -240px;
 }
 
