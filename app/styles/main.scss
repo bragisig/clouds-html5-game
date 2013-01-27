@@ -1,4 +1,5 @@
 @import "compass/css3";
+@import "_animation";
 
 html {
   background: black;
@@ -85,14 +86,47 @@ html {
   }
   .l_arm, .r_arm {
     height: 150px;
+    @include transition(all 0.15s);
     @include border-radius(25px);
   }
   .l_leg, .r_leg {
-    height: 80px; top: 182px;
+    height: 100px; top: 162px;
+    @include transform-origin(50%, 25px);
     @include border-radius(0 0 25px 25px);
   }
   .l_arm {left: -58px;}
   .r_arm {right: -58px;}
   .l_leg {left: 45px;}
   .r_leg {right: 45px;}
+
+  &.walking .l_leg {
+    @include animation(player-walk-left 0.15s linear infinite alternate);
+  }
+
+  &.walking .r_leg {
+    @include animation(player-walk-right 0.15s 0.15s linear infinite alternate);
+  }
+
+  &.jumping .r_arm {
+    @include transform-origin(50%, 0);
+    @include transform(rotate(-180deg));
+  }
+}
+
+@include keyframes(player-walk-left) {
+  from {
+    @include transform(rotate(0));
+  }
+  to {
+    @include transform(rotate(30deg));
+  }
+}
+
+@include keyframes(player-walk-right) {
+  from {
+    @include transform(rotate(0));
+  }
+  to {
+    @include transform(rotate(-30deg));
+  }
 }

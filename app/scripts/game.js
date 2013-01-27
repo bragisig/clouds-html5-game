@@ -1,4 +1,4 @@
-/*global define, $ */
+/*global define, alert */
 
 define(['player', 'platform'], function(Player, Platform) {
   /**
@@ -14,12 +14,10 @@ define(['player', 'platform'], function(Player, Platform) {
     
     // Cache a bound onFrame since we need it each frame.
     this.onFrame = this.onFrame.bind(this);
-
-    this.reset();
   };
 
   /**
-   * Reset all game state for new game.
+   * Reset all game state for a new game.
    */
   Game.prototype.reset = function() {
     // Reset platforms.
@@ -27,6 +25,9 @@ define(['player', 'platform'], function(Player, Platform) {
     this.createPlatforms();
 
     this.player.pos = {x: 700, y: 418};
+
+    // Start game
+    this.unfreezeGame();
   };
 
   Game.prototype.createPlatforms = function() {
@@ -74,6 +75,10 @@ define(['player', 'platform'], function(Player, Platform) {
    * Runs every frame. Calculates a delta and allows each game entity to update itself.
    */
   Game.prototype.onFrame = function() {
+    if (!this.isPlaying) {
+      return;
+    }
+
     var now = +new Date() / 1000,
         delta = now - this.lastFrame;
     this.lastFrame = now;
@@ -88,9 +93,43 @@ define(['player', 'platform'], function(Player, Platform) {
    * Starts the game.
    */
   Game.prototype.start = function() {
-    // Restart the onFrame loop
-    this.lastFrame = +new Date() / 1000;
-    requestAnimFrame(this.onFrame);
+    this.reset();
+  };
+
+  /**
+   * Stop the game and notify user that he has lost.
+   */
+  Game.prototype.gameover = function() {
+    alert('You are game over!');
+    this.freezeGame();
+
+    var game = this;
+    setTimeout(function() {
+      game.reset();
+    }, 0);
+  };
+
+  /**
+   * Freezes the game. Stops the onFrame loop and stops any CSS3 animations.
+   * Can be used both for game over and pause.
+   */
+  Game.prototype.freezeGame = function() {
+    this.isPlaying = false;
+    this.el.addClass('frozen');
+  };
+
+  /**
+   * Unfreezes the game. Starts the game loop again.
+   */
+  Game.prototype.unfreezeGame = function() {
+    if (!this.isPlaying) {
+      this.isPlaying = true;
+      this.el.removeClass('frozen');
+
+      // Restart the onFrame loop
+      this.lastFrame = +new Date() / 1000;
+      requestAnimFrame(this.onFrame);
+    }
   };
 
   /**
