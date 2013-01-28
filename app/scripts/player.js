@@ -47,21 +47,22 @@ define(['controls'], function(controls) {
     // Update UI.
     this.el.css(transform, 'translate(' + this.pos.x + 'px,' + this.pos.y + 'px)');
 
-    this.el.toggleClass('walking', this.vel.x !== 0);
-    this.el.toggleClass('jumping', this.vel.y < 0);
+
   };
 
   Player.prototype.checkPlatforms = function(oldY) {
     var platforms = this.game.platforms;
     for (var i = 0, p; p = platforms[i]; i++) {
+
+      var y_offset = 30
       // Are we crossing Y.
-      if (p.rect.y >= oldY && p.rect.y < this.pos.y) {
+      if (p.rect.y + y_offset >= oldY && p.rect.y + y_offset < this.pos.y) {
 
         // Is our X within platform width
         if (this.pos.x > p.rect.x && this.pos.x < p.rect.right) {
 
           // Collision. Let's stop gravity.
-          this.pos.y = p.rect.y;
+          this.pos.y = p.rect.y + y_offset;
           this.vel.y = 0;
         }
       }

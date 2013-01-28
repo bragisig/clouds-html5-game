@@ -24,7 +24,7 @@ define(['player', 'platform'], function(Player, Platform) {
     this.platforms = [];
     this.createPlatforms();
 
-    this.player.pos = {x: 700, y: 418};
+    this.player.pos = {x: 140, y: 418};
 
     // Start game
     this.unfreezeGame();
@@ -35,34 +35,28 @@ define(['player', 'platform'], function(Player, Platform) {
     this.addPlatform(new Platform({
       x: 100,
       y: 418,
-      width: 800,
-      height: 10
+      width: 80,
+      height: 50
     }));
 
     // Floating platforms
     this.addPlatform(new Platform({
-      x: 300,
-      y: 258,
-      width: 100,
-      height: 10
+      x: 10,
+      y: 150,
+      width: 80,
+      height: 50
     }));
     this.addPlatform(new Platform({
-      x: 500,
+      x: 20,
       y: 288,
-      width: 100,
-      height: 10
+      width: 80,
+      height: 50
     }));
     this.addPlatform(new Platform({
-      x: 400,
-      y: 158,
-      width: 100,
-      height: 10
-    }));
-    this.addPlatform(new Platform({
-      x: 750,
-      y: 188,
-      width: 100,
-      height: 10
+      x: 150,
+      y: 100,
+      width: 80,
+      height: 50
     }));
   };
 
