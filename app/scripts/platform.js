@@ -2,6 +2,8 @@
 
 define(function() {
 
+  var transform = $.fx.cssPrefix + 'transform';
+
   var Platform = function(rect) {
     this.rect = rect;
     this.rect.right = rect.x + rect.width;
@@ -16,10 +18,11 @@ define(function() {
   };
 
   Platform.prototype.onFrame = function(delta) {
-    // Movement?
+
+    // Update UI.
+    //this.el.css(transform, 'translate(' + this.pos.y + 'px)');
   };
 
-  // Collision?
 
   return Platform;
 });

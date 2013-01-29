@@ -36,5 +36,8 @@ html {
   top: 0;
   background: url('../assets/player.png') no-repeat;
   //border: dotted 1px grey;
+
+  div {margin: 0; padding: 0;}
+  div div {background: #A4CA39; position: relative;}
 }
   
