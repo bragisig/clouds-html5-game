@@ -10,11 +10,11 @@ define(function() {
 
     this.el = $('<div class="platform">');
     this.el.css({
-      left: rect.x,
-      top: rect.y,
       width: rect.width,
       height: rect.height
     });
+
+     this.el.css(transform, 'translate(' + this.rect.x + 'px,' + this.rect.y + 'px)');
   };
 
   Platform.prototype.onFrame = function(delta) {

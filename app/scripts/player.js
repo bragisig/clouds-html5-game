@@ -4,8 +4,9 @@ define(['controls', 'platform'], function(controls, Platform) {
 
   var PLAYER_SPEED = 300;
   var JUMP_VELOCITY = 800;
-  var GRAVITY = 1300;
+  var GRAVITY = 1500;
   var EDGE_OF_LIFE = 650; // DUM DUM DUM!
+  var PLATFORM_EXTRA_SPEED = 100;
 
   var transform = $.fx.cssPrefix + 'transform';
 
@@ -17,7 +18,7 @@ define(['controls', 'platform'], function(controls, Platform) {
 
     this.total_y_vel = 0;
     this.cumulutive_y_vel = 0;
-    this.create_platform = 250;
+    this.create_platform = 50;
   };
 
   Player.prototype.onFrame = function(delta) {
@@ -42,6 +43,13 @@ define(['controls', 'platform'], function(controls, Platform) {
     // Update state
     var oldY = this.pos.y;
     this.pos.x += this.vel.x * delta;
+    if (this.pos.x < 0) {
+      this.pos.x = 0;
+    }
+    else if (this.pos.x > 320) {
+      this.pos.x = 320;
+    }
+
     var velY = this.vel.y * delta
     this.pos.y += velY;
 
@@ -51,9 +59,11 @@ define(['controls', 'platform'], function(controls, Platform) {
 
       if (this.cumulutive_y_vel > this.create_platform) {
           
+          var randomX = Math.floor(Math.random()*320-51)
+
           this.game.addPlatform(new Platform({
-                x: 200,
-                y: 0,
+                x: randomX,
+                y: -50,
                 width: 80,
                 height: 50
               }));
@@ -61,6 +71,8 @@ define(['controls', 'platform'], function(controls, Platform) {
           this.cumulutive_y_vel = 0;
       }
     }
+
+    //velY += PLATFORM_EXTRA_SPEED * delta;
 
     this.movePlatforms(oldY, velY);
 
@@ -80,16 +92,10 @@ define(['controls', 'platform'], function(controls, Platform) {
       if (oldY > this.pos.y) {
 
         for (var i = 0, p; p = platforms[i]; i++) {
-          if (p.rect.y < 0) {
-            p.rect.y = 0;
-            //transform-origin: 2px left
-            //p.el.css(transform, 'origin: top -50');
-          }
-          else {
-            p.rect.y -= velY;
-          }
+          p.rect.y += Math.abs(velY)*2;
           
-          p.el.css(transform, 'translateY(' + p.rect.y + 'px)');
+          //p.el.css(transform, 'translateY(' + p.rect.y + 'px)');
+          p.el.css(transform, 'translate(' + p.rect.x + 'px,' + p.rect.y + 'px)');
 
           if (p.rect.y > 480) {
             platforms.remove(i);

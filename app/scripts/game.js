@@ -43,7 +43,19 @@ define(['player', 'platform'], function(Player, Platform) {
 
     this.addPlatform(new Platform({
       x: 150,
-      y: 0,
+      y: 100,
+      width: 80,
+      height: 50
+    }));
+    this.addPlatform(new Platform({
+      x: 250,
+      y: 300,
+      width: 80,
+      height: 50
+    }));
+    this.addPlatform(new Platform({
+      x: 10,
+      y: 150,
       width: 80,
       height: 50
     }));
@@ -53,8 +65,6 @@ define(['player', 'platform'], function(Player, Platform) {
     this.platforms.push(platform);
     this.platformsEl.append(platform.el);
   };
-
-
 
   /**
    * Runs every frame. Calculates a delta and allows each game entity to update itself.
