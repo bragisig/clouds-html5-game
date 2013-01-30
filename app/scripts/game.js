@@ -1,7 +1,15 @@
 /*global define, alert */
 
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
+
 define(['player', 'platform', 'controls'], function(Player, Platform, Controls) {
 
+  var NEW_PLATFORM_INTERVAL = 70;
 
   /**
    * Main game class.
@@ -16,6 +24,9 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
     
     this.RESOLUTION_X = 320; 
     this.RESOLUTION_Y = 480; 
+
+    this.total_y_vel = 0;
+    this.cumulutive_y_vel = 0;
 
     // Cache a bound onFrame since we need it each frame.
     this.onFrame = this.onFrame.bind(this);
@@ -37,42 +48,6 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
     this.unfreezeGame();
   };
 
-  Game.prototype.createInitialPlatforms = function() {
-    this.platformsEl.empty();
-
-    // ground
-    this.addPlatform(new Platform({
-      x: 100,
-      y: 418,
-      width: 80,
-      height: 50
-    }));
-
-    this.addPlatform(new Platform({
-      x: 150,
-      y: 100,
-      width: 80,
-      height: 50
-    }));
-    this.addPlatform(new Platform({
-      x: 250,
-      y: 300,
-      width: 80,
-      height: 50
-    }));
-    this.addPlatform(new Platform({
-      x: 10,
-      y: 150,
-      width: 80,
-      height: 50
-    }));
-  };
-
-  Game.prototype.addPlatform = function(platform) {
-    this.platforms.push(platform);
-    this.platformsEl.append(platform.el);
-  };
-
   /**
    * Runs every frame. Calculates a delta and allows each game entity to update itself.
    */
@@ -85,10 +60,49 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
         delta = now - this.lastFrame;
     this.lastFrame = now;
 
-    this.player.onFrame(delta);
+    var playerInfo = this.player.onFrame(delta);
+    
+    //Is the player moving upwards, then update platforms
+    if (playerInfo.oldY > this.player.pos.y) {
+      for (var i = 0, p; p = this.platforms[i]; i++) {
+          p.onFrame(delta, playerInfo.posY, playerInfo.oldY, playerInfo.velY);
+
+          if (p.rect.y > this.RESOLUTION_Y) {
+            this.platforms.remove(i);
+          }
+      }
+
+      
+      if (playerInfo.velY*-1 > 0) {
+          this.total_y_vel += playerInfo.velY*-1;
+          this.cumulutive_y_vel += playerInfo.velY*-1;
+
+          if (this.cumulutive_y_vel > NEW_PLATFORM_INTERVAL) {
+              
+              var randomX = Math.floor(Math.random()*320-51)
+
+              this.addPlatform(new Platform({
+                    x: randomX,
+                    y: -50,
+                    width: 80,
+                    height: 50
+                  }));
+
+              this.cumulutive_y_vel = 0;
+          }
+      }
+    };
+
+    this.checkGameover();
 
     // Request next frame.
     requestAnimFrame(this.onFrame);
+  };
+
+  Game.prototype.checkGameover = function() {
+    if (this.player.pos.y > this.RESOLUTION_Y + 50) {
+      this.gameover();
+    }
   };
 
   /**
@@ -132,6 +146,42 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
       this.lastFrame = +new Date() / 1000;
       requestAnimFrame(this.onFrame);
     }
+  };
+
+  Game.prototype.createInitialPlatforms = function() {
+    this.platformsEl.empty();
+
+    // ground
+    this.addPlatform(new Platform({
+      x: 100,
+      y: 418,
+      width: 80,
+      height: 50
+    }));
+
+    this.addPlatform(new Platform({
+      x: 150,
+      y: 100,
+      width: 80,
+      height: 50
+    }));
+    this.addPlatform(new Platform({
+      x: 250,
+      y: 300,
+      width: 80,
+      height: 50
+    }));
+    this.addPlatform(new Platform({
+      x: 10,
+      y: 150,
+      width: 80,
+      height: 50
+    }));
+  };
+
+  Game.prototype.addPlatform = function(platform) {
+    this.platforms.push(platform);
+    this.platformsEl.append(platform.el);
   };
 
   /**

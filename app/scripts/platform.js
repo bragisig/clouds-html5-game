@@ -8,8 +8,7 @@ define(function() {
     this.rect = rect;
     this.rect.right = rect.x + rect.width;
 
-    
-
+  
     this.el = $('<div class="platform">');
     this.el.css({
       width: rect.width,
@@ -19,12 +18,14 @@ define(function() {
      this.el.css(transform, 'translate(' + this.rect.x + 'px,' + this.rect.y + 'px)');
   };
 
-  Platform.prototype.onFrame = function(delta) {
-
-    // Update UI.
-    //this.el.css(transform, 'translate(' + this.pos.y + 'px)');
+  Platform.prototype.onFrame = function(delta, playerPosY, playerOldY, playerVelY) {
+    if (playerOldY > playerPosY) {
+      this.rect.y += Math.abs(playerVelY)*2;
+      
+      //p.el.css(transform, 'translateY(' + p.rect.y + 'px)');
+      this.el.css(transform, 'translate(' + this.rect.x + 'px,' + this.rect.y + 'px)');
+    }
   };
-
 
   return Platform;
 });
