@@ -1,6 +1,6 @@
 /*global define, alert */
 
-define(['player', 'platform'], function(Player, Platform) {
+define(['player', 'platform', 'controls'], function(Player, Platform, Controls) {
 
 
   /**
@@ -28,11 +28,15 @@ define(['player', 'platform'], function(Player, Platform) {
 
     this.player.pos = {x: 140, y: 418};
 
+    Controls.resetKeys();
+
     // Start game
     this.unfreezeGame();
   };
 
   Game.prototype.createPlatforms = function() {
+    this.platformsEl.empty();
+
     // ground
     this.addPlatform(new Platform({
       x: 100,

@@ -35,6 +35,10 @@ define([], function() {
     }
   };
 
+  Controls.prototype.resetKeys = function() {
+    this.keys = {};
+  }
+
   // Export singleton.
   return new Controls();
 });
