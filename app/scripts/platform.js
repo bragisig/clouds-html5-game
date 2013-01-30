@@ -8,6 +8,8 @@ define(function() {
     this.rect = rect;
     this.rect.right = rect.x + rect.width;
 
+    
+
     this.el = $('<div class="platform">');
     this.el.css({
       width: rect.width,

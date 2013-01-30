@@ -14,6 +14,9 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
 
     this.player = new Player(this.el.find('.player'), this);
     
+    this.RESOLUTION_X = 320; 
+    this.RESOLUTION_Y = 480; 
+
     // Cache a bound onFrame since we need it each frame.
     this.onFrame = this.onFrame.bind(this);
   };
@@ -24,7 +27,7 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
   Game.prototype.reset = function() {
     // Reset platforms.
     this.platforms = [];
-    this.createPlatforms();
+    this.createInitialPlatforms();
 
     this.player.pos = {x: 140, y: 418};
 
@@ -34,7 +37,7 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
     this.unfreezeGame();
   };
 
-  Game.prototype.createPlatforms = function() {
+  Game.prototype.createInitialPlatforms = function() {
     this.platformsEl.empty();
 
     // ground

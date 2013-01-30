@@ -3,10 +3,10 @@
 define(['controls', 'platform'], function(controls, Platform) {
 
   var PLAYER_SPEED = 300;
-  var JUMP_VELOCITY = 800;
+  var JUMP_VELOCITY = 700;
   var GRAVITY = 1500;
-  var EDGE_OF_LIFE = 650; // DUM DUM DUM!
   var PLATFORM_EXTRA_SPEED = 100;
+  var PLATFORM_INTERVAL = 70;
 
   var transform = $.fx.cssPrefix + 'transform';
 
@@ -18,11 +18,10 @@ define(['controls', 'platform'], function(controls, Platform) {
 
     this.total_y_vel = 0;
     this.cumulutive_y_vel = 0;
-    this.create_platform = 50;
+    
   };
 
   Player.prototype.onFrame = function(delta) {
-
     // Player input
     if (controls.keys.right) {
       this.vel.x = PLAYER_SPEED;
@@ -57,7 +56,7 @@ define(['controls', 'platform'], function(controls, Platform) {
       this.total_y_vel += velY*-1;
       this.cumulutive_y_vel += velY*-1;
 
-      if (this.cumulutive_y_vel > this.create_platform) {
+      if (this.cumulutive_y_vel > PLATFORM_INTERVAL) {
           
           var randomX = Math.floor(Math.random()*320-51)
 
@@ -131,7 +130,7 @@ define(['controls', 'platform'], function(controls, Platform) {
   };
 
   Player.prototype.checkGameover = function() {
-    if (this.pos.y > EDGE_OF_LIFE) {
+    if (this.pos.y > this.game.RESOLUTION_Y + 50) {
       this.game.gameover();
     }
   };
