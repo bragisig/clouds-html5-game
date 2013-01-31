@@ -16,14 +16,44 @@ html {
   background: url('../assets/background.jpg') no-repeat;
   margin-left: -160px;
   margin-top: -240px;
-  border: solid 5px grey;
+  border: solid 2px #257CB1;
   border-radius: 10px;
 }
 
-.platform {
+.platform1 {
   position: absolute;
-  background: url('../assets/cloud2.png') no-repeat;
   //border: dotted 1px grey;
+  background: url('../assets/cloud1.png') no-repeat;
+}
+
+.platform2 {
+  position: absolute;
+  //border: dotted 1px grey;
+  background: url('../assets/cloud2.png') no-repeat;
+}
+
+.platform3 {
+  position: absolute;
+  //border: dotted 1px grey;
+  background: url('../assets/cloud3.png') no-repeat;
+}
+
+.platform4 {
+  position: absolute;
+  //border: dotted 1px grey;
+  background: url('../assets/cloud4.png') no-repeat;
+}
+
+.platform5 {
+  position: absolute;
+  //border: dotted 1px grey;
+  background: url('../assets/cloud5.png') no-repeat;
+}
+
+.platform6 {
+  position: absolute;
+  //border: dotted 1px grey;
+  background: url('../assets/cloud6.png') no-repeat;
 }
 
 .player {

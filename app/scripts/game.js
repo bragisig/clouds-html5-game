@@ -72,24 +72,22 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
           }
       }
 
-      
-      if (playerInfo.velY*-1 > 0) {
-          this.total_y_vel += playerInfo.velY*-1;
-          this.cumulutive_y_vel += playerInfo.velY*-1;
+      this.total_y_vel += Math.abs(playerInfo.velY);
+      this.cumulutive_y_vel += Math.abs(playerInfo.velY);
 
-          if (this.cumulutive_y_vel > NEW_PLATFORM_INTERVAL) {
-              
-              var randomX = Math.floor(Math.random()*320-51)
+      //If interval reach, create new random platform
+      if (this.cumulutive_y_vel > NEW_PLATFORM_INTERVAL) {
+          
+          var randomX = Math.floor((Math.random()*270)+1);
+ 
+          this.addPlatform(new Platform({
+                x: randomX,
+                y: -50,
+                width: 80,
+                height: 80
+              }));
 
-              this.addPlatform(new Platform({
-                    x: randomX,
-                    y: -50,
-                    width: 80,
-                    height: 50
-                  }));
-
-              this.cumulutive_y_vel = 0;
-          }
+          this.cumulutive_y_vel = 0;
       }
     };
 
@@ -156,26 +154,26 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
       x: 100,
       y: 418,
       width: 80,
-      height: 50
+      height: 80
     }));
 
     this.addPlatform(new Platform({
       x: 150,
       y: 100,
       width: 80,
-      height: 50
+      height: 80
     }));
     this.addPlatform(new Platform({
       x: 250,
       y: 300,
       width: 80,
-      height: 50
+      height: 80
     }));
     this.addPlatform(new Platform({
       x: 10,
       y: 150,
       width: 80,
-      height: 50
+      height: 80
     }));
   };
 
