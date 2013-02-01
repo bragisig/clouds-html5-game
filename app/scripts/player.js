@@ -2,11 +2,13 @@
 
 define(['controls', 'platform'], function(controls, Platform) {
 
+  var transform = $.fx.cssPrefix + 'transform';
+  
   var PLAYER_SPEED = 300;
   var JUMP_VELOCITY = 700;
   var GRAVITY = 1500;
 
-  var transform = $.fx.cssPrefix + 'transform';
+  var jumpingSound = new Audio('../assets/Jump.wav');
 
   var Player = function(el, game) {
     this.el = el;
@@ -28,6 +30,7 @@ define(['controls', 'platform'], function(controls, Platform) {
     // Jump
     if (controls.keys.space && this.vel.y === 0) {
       this.vel.y = -JUMP_VELOCITY;
+      jumpingSound.play();
     }
 
     // Gravity

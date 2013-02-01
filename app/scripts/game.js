@@ -11,6 +11,7 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
 
   var NEW_PLATFORM_INTERVAL = 70;
 
+  var inGameMusic = new Audio('../assets/Theme_1.mp3');
   /**
    * Main game class.
    * @param {Element} el DOM element containig the game.
@@ -27,6 +28,9 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
 
     this.total_y_vel = 0;
     this.cumulutive_y_vel = 0;
+
+    inGameMusic.loop = true;   
+   // inGameMusic.play(); 
 
     // Cache a bound onFrame since we need it each frame.
     this.onFrame = this.onFrame.bind(this);
