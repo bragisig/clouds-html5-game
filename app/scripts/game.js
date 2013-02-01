@@ -7,11 +7,14 @@ Array.prototype.remove = function(from, to) {
   return this.push.apply(this, rest);
 };
 
-define(['player', 'platform', 'controls'], function(Player, Platform, Controls) {
+define(['player', 'platform', 'controls', 'background'], function(Player, Platform, Controls, Background) {
+  
+  var transform = $.fx.cssPrefix + 'transform';
 
   var NEW_PLATFORM_INTERVAL = 70;
 
   var inGameMusic = new Audio('../assets/Theme_1.mp3');
+
   /**
    * Main game class.
    * @param {Element} el DOM element containig the game.
@@ -20,6 +23,7 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
   var Game = function(el) {
     this.el = el;
     this.platformsEl = el.find('.platforms');
+    this.backgroundsEl = el.find('.backgrounds');
 
     this.player = new Player(this.el.find('.player'), this);
     
@@ -28,6 +32,28 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
 
     this.total_y_vel = 0;
     this.cumulutive_y_vel = 0;
+
+    this.backgrounds = [];
+
+    var bg1 = new Background({
+      x: 0,
+      y: 0,
+      width: this.RESOLUTION_X,
+      height: this.RESOLUTION_Y
+    }, 1)
+
+    this.backgrounds.push(bg1);
+    this.backgroundsEl.append(bg1.el);
+
+    var bg2 = new Background({
+      x: this.RESOLUTION_X,
+      y: -this.RESOLUTION_Y,
+      width: this.RESOLUTION_X,
+      height: this.RESOLUTION_Y
+    }, 2)
+
+    this.backgrounds.push(bg2);
+    this.backgroundsEl.append(bg2.el);
 
     inGameMusic.loop = true;   
    // inGameMusic.play(); 
@@ -76,6 +102,10 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
           }
       }
 
+      for (var i = 0; i < this.backgrounds.length; i++) {
+        this.backgrounds[i].onFrame(delta, playerInfo.posY, playerInfo.oldY, playerInfo.velY);
+      }
+
       this.total_y_vel += Math.abs(playerInfo.velY);
       this.cumulutive_y_vel += Math.abs(playerInfo.velY);
 
@@ -118,7 +148,7 @@ define(['player', 'platform', 'controls'], function(Player, Platform, Controls) 
    * Stop the game and notify user that he has lost.
    */
   Game.prototype.gameover = function() {
-    alert('You are game over!');
+    alert('Game over!');
     this.freezeGame();
 
     var game = this;

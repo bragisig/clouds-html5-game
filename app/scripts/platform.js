@@ -29,10 +29,10 @@ define(function() {
   };
 
   Platform.prototype.onFrame = function(delta, playerPosY, playerOldY, playerVelY) {
+    //Player is moving upwards
     if (playerOldY > playerPosY) {
       this.rect.y += Math.abs(playerVelY)*2;
       
-      //p.el.css(transform, 'translateY(' + p.rect.y + 'px)');
       this.el.css(transform, 'translate(' + this.rect.x + 'px,' + this.rect.y + 'px)');
     }
   };
