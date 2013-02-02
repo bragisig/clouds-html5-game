@@ -4,9 +4,9 @@ define(['controls', 'platform'], function(controls, Platform) {
 
   var transform = $.fx.cssPrefix + 'transform';
   
-  var PLAYER_SPEED = 350;
+  var PLAYER_SPEED = 370;
   var JUMP_VELOCITY = 900; 
-  var GRAVITY = 2400;
+  var GRAVITY = 2300;
   var PLAYER_MIN_Y = 200;
  
   var spaceHasBeenPressed = false; 
