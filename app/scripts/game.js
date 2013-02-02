@@ -24,14 +24,11 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     this.el = el;
     this.platformsEl = el.find('.platforms');
     this.backgroundsEl = el.find('.backgrounds');
-
+    this.scoreboardEl = el.find('.scoreboard');
     this.player = new Player(this.el.find('.player'), this);
     
     this.RESOLUTION_X = 320; 
     this.RESOLUTION_Y = 480; 
-
-    this.total_y_vel = 0;
-    this.cumulutive_y_vel = 0;
 
     this.backgrounds = [];
 
@@ -66,6 +63,11 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
    * Reset all game state for a new game.
    */
   Game.prototype.reset = function() {
+    this.total_y_vel = 0;
+    this.cumulutive_y_vel = 0;
+
+    this.scoreboardEl.text(0);
+
     // Reset platforms.
     this.platforms = [];
     this.createInitialPlatforms();
@@ -108,6 +110,8 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
 
       this.total_y_vel += Math.abs(playerInfo.velY);
       this.cumulutive_y_vel += Math.abs(playerInfo.velY);
+
+      this.scoreboardEl.text(Math.round(this.total_y_vel));
 
       //If interval reach, create new random platform
       if (this.cumulutive_y_vel > NEW_PLATFORM_INTERVAL) {

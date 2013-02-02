@@ -85,4 +85,18 @@ html {
   div {margin: 0; padding: 0;}
   div div {background: #A4CA39; position: relative;}
 }
+
+.scoreboard {
+  position: absolute;
+  width: 100px;
+  height: 30px;
+  top: 0px;
+  left: 210px;
+  background-color: transparent;
+  font-family: 'Devonshire', cursive;
+  //border: dotted 1px grey;
+  text-align: right;
+  font-size: 26px;
+  color: #257CB1;
+}
   
