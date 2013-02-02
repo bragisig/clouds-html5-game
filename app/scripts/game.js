@@ -11,7 +11,8 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
   
   var transform = $.fx.cssPrefix + 'transform';
 
-  var NEW_PLATFORM_INTERVAL = 70;
+  var INITIAL_NEW_PLATFORM_INTERVAL = 70;
+  var newPlatformInterval = 0;
 
   var inGameMusic = new Audio('../assets/Theme_1.mp3');
 
@@ -69,6 +70,8 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
    * Reset all game state for a new game.
    */
   Game.prototype.reset = function() {
+    newPlatformInterval = INITIAL_NEW_PLATFORM_INTERVAL;
+
     this.total_y_vel = 0;
     this.cumulutive_y_vel = 0;
 
@@ -78,7 +81,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     this.platforms = [];
     this.createInitialPlatforms();
 
-    this.player.pos = {x: 140, y: 418};
+    this.player.reset();
 
     Controls.resetKeys();
 
@@ -121,8 +124,13 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
 
       this.scoreboardEl.text(Math.round(this.total_y_vel));
 
+      if (this.total_y_vel > 3000 && newPlatformInterval === INITIAL_NEW_PLATFORM_INTERVAL) {
+        newPlatformInterval = 110;
+      }
+
+
       //If interval reach, create new random platform
-      if (this.cumulutive_y_vel > NEW_PLATFORM_INTERVAL) {
+      if (this.cumulutive_y_vel > newPlatformInterval) {
           
           var randomX = Math.floor((Math.random()*270)+1);
  

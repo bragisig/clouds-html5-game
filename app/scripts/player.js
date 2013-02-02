@@ -4,10 +4,12 @@ define(['controls', 'platform'], function(controls, Platform) {
 
   var transform = $.fx.cssPrefix + 'transform';
   
-  var PLAYER_SPEED = 300;
-  var JUMP_VELOCITY = 700;
-  var GRAVITY = 1500;
+  var PLAYER_SPEED = 350;
+  var JUMP_VELOCITY = 900; 
+  var GRAVITY = 2400;
   var PLAYER_MIN_Y = 200;
+ 
+  var spaceHasBeenPressed = false; 
 
   var jumpingSound = new Audio('../assets/Jump.wav');
 
@@ -17,6 +19,11 @@ define(['controls', 'platform'], function(controls, Platform) {
     this.pos = { x: 0, y: 0 };
     this.vel = { x: 0, y: 0 };
   };
+
+  Player.prototype.reset = function() {
+    spaceHasBeenPressed = false;
+    this.pos = {x: 140, y: 418};
+  }
 
   Player.prototype.onFrame = function(delta) {
     // Player input
@@ -28,8 +35,12 @@ define(['controls', 'platform'], function(controls, Platform) {
       this.vel.x = 0;
     }
 
+    if (controls.keys.space && !spaceHasBeenPressed) {
+      spaceHasBeenPressed = true;
+    }
+
     // Jump
-    if (controls.keys.space && this.vel.y === 0) {
+    if (spaceHasBeenPressed && this.vel.y === 0) {
       this.vel.y = -JUMP_VELOCITY;
       jumpingSound.play();
     }
