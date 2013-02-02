@@ -7,6 +7,7 @@ define(['controls', 'platform'], function(controls, Platform) {
   var PLAYER_SPEED = 300;
   var JUMP_VELOCITY = 700;
   var GRAVITY = 1500;
+  var PLAYER_MIN_Y = 200;
 
   var jumpingSound = new Audio('../assets/Jump.wav');
 
@@ -48,6 +49,10 @@ define(['controls', 'platform'], function(controls, Platform) {
 
     var velY = this.vel.y * delta
     this.pos.y += velY;
+    var movingUpwards = this.pos.y < oldY;
+    if (this.pos.y < PLAYER_MIN_Y) {
+      this.pos.y = PLAYER_MIN_Y;
+    }
 
     // Check collisions
     this.checkPlatforms(oldY);
@@ -55,7 +60,7 @@ define(['controls', 'platform'], function(controls, Platform) {
     // Update UI.
     this.el.css(transform, 'translate(' + this.pos.x + 'px,' + this.pos.y + 'px)');
 
-    return { 'posY': this.pos.y, 'oldY': oldY, 'velY': velY };
+    return { 'velY': velY, 'movingUpwards': movingUpwards };
   };
 
   Player.prototype.checkPlatforms = function(oldY) {

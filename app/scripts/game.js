@@ -26,7 +26,13 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     this.backgroundsEl = el.find('.backgrounds');
     this.scoreboardEl = el.find('.scoreboard');
     this.player = new Player(this.el.find('.player'), this);
-    
+
+    this.gameOverEl = el.find('.gameOver');
+    self = this;
+    this.gameOverEl.find('.button').click(function() {
+      self.reset();
+    });
+
     this.RESOLUTION_X = 320; 
     this.RESOLUTION_Y = 480; 
 
@@ -76,6 +82,8 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
 
     Controls.resetKeys();
 
+    this.gameOverEl.css('visibility', 'hidden');
+
     // Start game
     this.unfreezeGame();
   };
@@ -95,9 +103,9 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     var playerInfo = this.player.onFrame(delta);
     
     //Is the player moving upwards, then update platforms
-    if (playerInfo.oldY > this.player.pos.y) {
+    if (playerInfo.movingUpwards === true) {
       for (var i = 0, p; p = this.platforms[i]; i++) {
-          p.onFrame(delta, playerInfo.posY, playerInfo.oldY, playerInfo.velY);
+          p.onFrame(delta, playerInfo);
 
           if (p.rect.y > this.RESOLUTION_Y) {
             this.platforms.remove(i);
@@ -105,7 +113,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
       }
 
       for (var i = 0; i < this.backgrounds.length; i++) {
-        this.backgrounds[i].onFrame(delta, playerInfo.posY, playerInfo.oldY, playerInfo.velY);
+        this.backgrounds[i].onFrame(delta, playerInfo);
       }
 
       this.total_y_vel += Math.abs(playerInfo.velY);
@@ -152,13 +160,16 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
    * Stop the game and notify user that he has lost.
    */
   Game.prototype.gameover = function() {
-    alert('Game over!');
+    this.gameOverEl.find('.headline').text('Game Over');
+    this.gameOverEl.find('.text').text('Score: '+ Math.round(this.total_y_vel));
+    this.gameOverEl.css('visibility', 'visible');
+
     this.freezeGame();
 
-    var game = this;
-    setTimeout(function() {
-      game.reset();
-    }, 0);
+    //var game = this;
+    //setTimeout(function() {
+    //  game.reset();
+    //}, 0);
   };
 
   /**

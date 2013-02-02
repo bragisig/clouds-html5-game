@@ -22,10 +22,10 @@ define(function() {
     this.el.css(transform, 'translateY(' + this.rect.y + 'px)');
   };
 
-  Background.prototype.onFrame = function(delta, playerPosY, playerOldY, playerVelY) {
+  Background.prototype.onFrame = function(delta, playerInfo) {
     //Player is moving upwards
-    if (playerOldY > playerPosY) {
-      this.rect.y += Math.abs(playerVelY/3)*2;
+    if (playerInfo.movingUpwards === true) {
+      this.rect.y += Math.abs(playerInfo.velY/3)*2;
       
       if (this.rect.y > this.rect.height) {
         this.rect.y = -(this.rect.height - (this.rect.y - this.rect.height));

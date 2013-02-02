@@ -23,15 +23,15 @@ define(function() {
     this.el.css({
       width: rect.width,
       height: rect.height
-    });
+    }); 
 
     this.el.css(transform, 'translate(' + this.rect.x + 'px,' + this.rect.y + 'px)');
   };
 
-  Platform.prototype.onFrame = function(delta, playerPosY, playerOldY, playerVelY) {
+  Platform.prototype.onFrame = function(delta, playerInfo) {
     //Player is moving upwards
-    if (playerOldY > playerPosY) {
-      this.rect.y += Math.abs(playerVelY)*2;
+    if (playerInfo.movingUpwards === true) {
+      this.rect.y += Math.abs(playerInfo.velY)*2;
       
       this.el.css(transform, 'translate(' + this.rect.x + 'px,' + this.rect.y + 'px)');
     }
