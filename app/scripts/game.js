@@ -13,46 +13,40 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
 
   var INCREASE_DIFF_INTERVAL = 1000;
   var increaseDiff = 0;
-  var INITIAL_NEW_PLATFORM_INTERVAL = 40;
+  var INITIAL_NEW_PLATFORM_INTERVAL = 30;
   var newPlatformInterval = 0;
 
   var inGameMusic = new Audio('../assets/Theme_1.mp3');
 
   /**
    * Main game class.
-   * @param {Element} el DOM element containig the game.
+   * @param {Element} el DOM element containing the game.
    * @constructor
    */
   var Game = function(el) {
+    this.RESOLUTION_X = 320; 
+    this.RESOLUTION_Y = 480; 
+
     this.el = el;
     this.platformsEl = el.find('.platforms');
     this.backgroundsEl = el.find('.backgrounds');
     this.scoreboardEl = el.find('.scoreboard');
     this.player = new Player(this.el.find('.player'), this);
 
-    self = this;
+    this.setupGameScreens(el);
 
-    this.gameOverEl = el.find('.gameOver');
-    this.gameOverEl.find('.button').click(function() {
-      self.reset();
-      
-      if (self.gameOverEl.hasClass('center') === true) {
-        self.gameOverEl.removeClass('center');
-      };
+    this.setupBackgrounds();
 
-      self.unfreezeGame();
-    });
+    inGameMusic.loop = true;   
+    // inGameMusic.play(); 
 
-    this.mainScreenEl = el.find('.mainScreen');
-    this.mainScreenEl.toggleClass('center');
-    this.mainScreenEl.find('.button').click(function() {
-      self.mainScreenEl.toggleClass('center');
-      self.unfreezeGame();
-    });
+    this.freezeGame();
 
-    this.RESOLUTION_X = 320; 
-    this.RESOLUTION_Y = 480; 
+    // Cache a bound onFrame since we need it each frame.
+    this.onFrame = this.onFrame.bind(this);
+  };
 
+  Game.prototype.setupBackgrounds = function(backgr) {
     this.backgrounds = [];
 
     this.addBackground(new Background({
@@ -68,20 +62,69 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
       width: this.RESOLUTION_X,
       height: this.RESOLUTION_Y
     }, 2));
-
-    inGameMusic.loop = true;   
-    // inGameMusic.play(); 
-
-    this.freezeGame();
-
-    // Cache a bound onFrame since we need it each frame.
-    this.onFrame = this.onFrame.bind(this);
-  };
+  }
 
   Game.prototype.addBackground = function(backgr) {
     this.backgrounds.push(backgr);
     this.backgroundsEl.append(backgr.el);
   }
+
+  Game.prototype.setupGameScreens = function(gameEl) {
+    self = this;
+    this.gameOverEl = gameEl.find('.gameOver');
+    this.gameOverEl.find('.button').click(function() {
+      self.reset();
+      
+      if (self.gameOverEl.hasClass('center') === true) {
+        self.gameOverEl.removeClass('center');
+      };
+
+      self.unfreezeGame();
+    });
+
+    this.mainScreenEl = gameEl.find('.mainScreen');
+    this.mainScreenEl.toggleClass('center');
+    this.mainScreenEl.find('.button').click(function() {
+      self.mainScreenEl.toggleClass('center');
+      self.unfreezeGame();
+    });
+  }
+
+  Game.prototype.addPlatform = function(platform) {
+    this.platforms.push(platform);
+    this.platformsEl.append(platform.el);
+  };
+
+  Game.prototype.setupPlatforms = function() {
+    this.platformsEl.empty();
+
+    // ground
+    this.addPlatform(new Platform({
+      x: 100,
+      y: 418,
+      width: 80,
+      height: 80
+    }));
+
+    this.addPlatform(new Platform({
+      x: 150,
+      y: 100,
+      width: 80,
+      height: 80
+    }));
+    this.addPlatform(new Platform({
+      x: 250,
+      y: 300,
+      width: 80,
+      height: 80
+    }));
+    this.addPlatform(new Platform({
+      x: 10,
+      y: 150,
+      width: 80,
+      height: 80
+    }));
+  };
 
   /**
    * Reset all game state for a new game.
@@ -97,7 +140,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
 
     // Reset platforms.
     this.platforms = [];
-    this.createInitialPlatforms();
+    this.setupPlatforms();
 
     this.player.reset();
 
@@ -172,14 +215,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     }
   };
 
-  /**
-   * Starts the game.
-   */
-  Game.prototype.start = function() {
-    this.reset();
-  };
-
-  /**
+    /**
    * Stop the game and notify user that he has lost.
    */
   Game.prototype.gameover = function() {
@@ -197,6 +233,13 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     //setTimeout(function() {
     //  game.reset();
     //}, 0);
+  };
+
+  /**
+   * Starts the game.
+   */
+  Game.prototype.start = function() {
+    this.reset();
   };
 
   /**
@@ -219,42 +262,6 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
       this.lastFrame = +new Date() / 1000;
       requestAnimFrame(this.onFrame);
     }
-  };
-
-  Game.prototype.createInitialPlatforms = function() {
-    this.platformsEl.empty();
-
-    // ground
-    this.addPlatform(new Platform({
-      x: 100,
-      y: 418,
-      width: 80,
-      height: 80
-    }));
-
-    this.addPlatform(new Platform({
-      x: 150,
-      y: 100,
-      width: 80,
-      height: 80
-    }));
-    this.addPlatform(new Platform({
-      x: 250,
-      y: 300,
-      width: 80,
-      height: 80
-    }));
-    this.addPlatform(new Platform({
-      x: 10,
-      y: 150,
-      width: 80,
-      height: 80
-    }));
-  };
-
-  Game.prototype.addPlatform = function(platform) {
-    this.platforms.push(platform);
-    this.platformsEl.append(platform.el);
   };
 
   /**
