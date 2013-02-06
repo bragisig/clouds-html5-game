@@ -14,6 +14,7 @@ define(['controls', 'platform'], function(controls, Platform) {
   var jumpingSound = new Audio('../assets/Jump.wav');
 
   var Player = function(el, game) {
+    this.collidedPlatform = null;
     this.el = el;
     this.game = game;
     this.pos = { x: 0, y: 0 };
@@ -41,6 +42,10 @@ define(['controls', 'platform'], function(controls, Platform) {
 
     // Jump
     if (spaceHasBeenPressed && this.vel.y === 0) {
+      if (!!this.collidedPlatform) {
+        JUMP_VELOCITY = this.collidedPlatform.getJumpVelocity();
+      }
+
       this.vel.y = -JUMP_VELOCITY;
       jumpingSound.play();
     }
@@ -87,6 +92,7 @@ define(['controls', 'platform'], function(controls, Platform) {
           // Collision. Let's stop gravity.
           this.pos.y = p.rect.y + y_offset;
           this.vel.y = 0;
+          this.collidedPlatform = p;
         }
       }
     }

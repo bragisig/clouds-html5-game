@@ -4,22 +4,25 @@ define(function() {
 
   var transform = $.fx.cssPrefix + 'transform';
 
-  var PLATFORM_CLASSES = { 
-    1: 'platform1', 
-    2: 'platform2', 
-    3: 'platform3', 
-    4: 'platform4', 
-    5: 'platform5', 
-    6: 'platform6' 
+  var PLATFORM_TYPES = { 
+    1: { className: 'platform1', jumpVelocity: 900 },
+    2: { className: 'platform2', jumpVelocity: 900 },
+    3: { className: 'platform3', jumpVelocity: 900 },
+    4: { className: 'platform4', jumpVelocity: 1400 },
+    5: { className: 'platform5', jumpVelocity: 700 },
+    6: { className: 'platform6', jumpVelocity: 800 }
   };
+
 
   var Platform = function(rect) {
     this.rect = rect;
     this.rect.right = rect.x + rect.width;
 
-  var randomImage = Math.floor((Math.random()*6)+1);
+    var randomImage = Math.floor((Math.random()*6)+1);
 
-    this.el = $('<div class="'+ PLATFORM_CLASSES[randomImage] +'">');
+    this.typeIndex = randomImage;
+
+    this.el = $('<div class="'+ PLATFORM_TYPES[this.typeIndex].className +'">');
     this.el.css({
       width: rect.width,
       height: rect.height
@@ -36,6 +39,10 @@ define(function() {
       this.el.css(transform, 'translate(' + this.rect.x + 'px,' + this.rect.y + 'px)');
     }
   };
+
+  Platform.prototype.getJumpVelocity = function() {
+    return PLATFORM_TYPES[this.typeIndex].jumpVelocity;
+  }
 
   return Platform;
 });

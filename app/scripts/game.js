@@ -41,25 +41,19 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
 
     this.backgrounds = [];
 
-    var bg1 = new Background({
+    this.addBackground(new Background({
       x: 0,
       y: 0,
       width: this.RESOLUTION_X,
       height: this.RESOLUTION_Y
-    }, 1)
+    }, 1));
 
-    this.backgrounds.push(bg1);
-    this.backgroundsEl.append(bg1.el);
-
-    var bg2 = new Background({
+    this.addBackground(new Background({
       x: this.RESOLUTION_X,
       y: -this.RESOLUTION_Y,
       width: this.RESOLUTION_X,
       height: this.RESOLUTION_Y
-    }, 2)
-
-    this.backgrounds.push(bg2);
-    this.backgroundsEl.append(bg2.el);
+    }, 2));
 
     inGameMusic.loop = true;   
     // inGameMusic.play(); 
@@ -67,6 +61,11 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     // Cache a bound onFrame since we need it each frame.
     this.onFrame = this.onFrame.bind(this);
   };
+
+  Game.prototype.addBackground = function(backgr) {
+    this.backgrounds.push(backgr);
+    this.backgroundsEl.append(backgr.el);
+  }
 
   /**
    * Reset all game state for a new game.
