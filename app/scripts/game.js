@@ -11,7 +11,9 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
   
   var transform = $.fx.cssPrefix + 'transform';
 
-  var INITIAL_NEW_PLATFORM_INTERVAL = 30;
+  var INCREASE_DIFF_INTERVAL = 1000;
+  var increaseDiff = 0;
+  var INITIAL_NEW_PLATFORM_INTERVAL = 40;
   var newPlatformInterval = 0;
 
   var inGameMusic = new Audio('../assets/Theme_1.mp3');
@@ -71,6 +73,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
    */
   Game.prototype.reset = function() {
     newPlatformInterval = INITIAL_NEW_PLATFORM_INTERVAL;
+    increaseDiff = INCREASE_DIFF_INTERVAL;
 
     this.total_y_vel = 0;
     this.cumulutive_y_vel = 0;
@@ -85,7 +88,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
 
     Controls.resetKeys();
 
-    //this.gameOverEl.css('visibility', 'hidden');
+    this.gameOverEl.toggleClass('center');
 
     // Start game
     this.unfreezeGame();
@@ -124,8 +127,9 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
 
       this.scoreboardEl.text(Math.round(this.total_y_vel));
 
-      if (this.total_y_vel > 3000 && newPlatformInterval === INITIAL_NEW_PLATFORM_INTERVAL) {
-        newPlatformInterval = 90;
+      if (this.total_y_vel > increaseDiff) {
+        newPlatformInterval += 5;
+        increaseDiff += INCREASE_DIFF_INTERVAL;
       }
 
 
@@ -173,6 +177,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     //this.gameOverEl.css('visibility', 'visible');
 
     this.gameOverEl.toggleClass('center');
+
     this.freezeGame();
 
     //var game = this;
