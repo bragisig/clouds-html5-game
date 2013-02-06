@@ -6,7 +6,7 @@ define(['controls', 'platform'], function(controls, Platform) {
   
   var PLAYER_SPEED = 370;
   var JUMP_VELOCITY = 900; 
-  var GRAVITY = 2300;
+  var GRAVITY = 2000;
   var PLAYER_MIN_Y = 200;
  
   var spaceHasBeenPressed = false; 

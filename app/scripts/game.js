@@ -11,7 +11,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
   
   var transform = $.fx.cssPrefix + 'transform';
 
-  var INITIAL_NEW_PLATFORM_INTERVAL = 70;
+  var INITIAL_NEW_PLATFORM_INTERVAL = 30;
   var newPlatformInterval = 0;
 
   var inGameMusic = new Audio('../assets/Theme_1.mp3');
@@ -60,7 +60,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     this.backgroundsEl.append(bg2.el);
 
     inGameMusic.loop = true;   
-   // inGameMusic.play(); 
+    // inGameMusic.play(); 
 
     // Cache a bound onFrame since we need it each frame.
     this.onFrame = this.onFrame.bind(this);
@@ -85,7 +85,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
 
     Controls.resetKeys();
 
-    this.gameOverEl.css('visibility', 'hidden');
+    //this.gameOverEl.css('visibility', 'hidden');
 
     // Start game
     this.unfreezeGame();
@@ -125,7 +125,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
       this.scoreboardEl.text(Math.round(this.total_y_vel));
 
       if (this.total_y_vel > 3000 && newPlatformInterval === INITIAL_NEW_PLATFORM_INTERVAL) {
-        newPlatformInterval = 110;
+        newPlatformInterval = 90;
       }
 
 
@@ -170,8 +170,9 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
   Game.prototype.gameover = function() {
     this.gameOverEl.find('.headline').text('Game Over');
     this.gameOverEl.find('.text').text('Score: '+ Math.round(this.total_y_vel));
-    this.gameOverEl.css('visibility', 'visible');
+    //this.gameOverEl.css('visibility', 'visible');
 
+    this.gameOverEl.toggleClass('center');
     this.freezeGame();
 
     //var game = this;
