@@ -130,24 +130,60 @@ body {
   color: #257CB1;
 }
 
-.gameOver {
-  visibility: visible;
+.button {   
+  padding: 2px 15px 2px 15px;
+  border: solid 4px rgba(255,255,255,0.80);
+  border-radius: 4px;
+  background-color: rgba(173,233,244,0.80);
+  font-size: 30px;
+} 
+
+.baseGameScreen {
   position: absolute;
   width: 320px;
   height: 480px;
-  margin-left: 320px;
+  margin-left: 0px;
   margin-top: 0px;
   border-radius: 0px;
-  background-color:  rgba(0,0,0,0.70);
+  background-color:  rgba(0,0,0,0.90);
   font-family: 'Devonshire', cursive;
-    //border: dotted 1px grey;
   text-align: center;
   color: white;
   padding-top: 30%;
+  @include transition(all 1s ease);  
+}
+
+.mainScreen {
+  @extend .baseGameScreen;
+  margin-left: -320px;
+
+  .headline {
+    font-size: 54px;
+    width: 100%;
+    display:block;
+  }
+
+  .text {
+    font-size: 24px;
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  &.center {
+    margin-left: 0%;
+  }
+
+  &.left {
+    margin-left: 100%;
+  }
+}
+
+.gameOver {
+  @extend .baseGameScreen;
+  margin-left: 320px;
   //background-color: rgba(37,124,177,0.80);  rgba(0,0,0,0.30);  rgba(173,233,244,0.80);
     
-  @include transition(all 1s ease);  
-  
   .headline {
     font-size: 44px;
     width: 100%;
@@ -161,14 +197,6 @@ body {
     margin-bottom: 20px;
   }
 
-  .button {   
-    padding: 2px 15px 2px 15px;
-    border: solid 4px rgba(255,255,255,0.80);
-    border-radius: 4px;
-    background-color: rgba(173,233,244,0.80);
-    font-size: 30px;
-  } 
-
   &.center {
     margin-left: 0%;
   }
@@ -177,6 +205,8 @@ body {
     margin-left: 100%;
   }
 }
+
+
 
 
 

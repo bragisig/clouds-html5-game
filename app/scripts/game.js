@@ -30,10 +30,24 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     this.scoreboardEl = el.find('.scoreboard');
     this.player = new Player(this.el.find('.player'), this);
 
-    this.gameOverEl = el.find('.gameOver');
     self = this;
+
+    this.gameOverEl = el.find('.gameOver');
     this.gameOverEl.find('.button').click(function() {
       self.reset();
+      
+      if (self.gameOverEl.hasClass('center') === true) {
+        self.gameOverEl.removeClass('center');
+      };
+
+      self.unfreezeGame();
+    });
+
+    this.mainScreenEl = el.find('.mainScreen');
+    this.mainScreenEl.toggleClass('center');
+    this.mainScreenEl.find('.button').click(function() {
+      self.mainScreenEl.toggleClass('center');
+      self.unfreezeGame();
     });
 
     this.RESOLUTION_X = 320; 
@@ -57,6 +71,8 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
 
     inGameMusic.loop = true;   
     // inGameMusic.play(); 
+
+    this.freezeGame();
 
     // Cache a bound onFrame since we need it each frame.
     this.onFrame = this.onFrame.bind(this);
@@ -86,11 +102,6 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     this.player.reset();
 
     Controls.resetKeys();
-
-    this.gameOverEl.toggleClass('center');
-
-    // Start game
-    this.unfreezeGame();
   };
 
   /**
@@ -114,6 +125,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
 
           if (p.rect.y > this.RESOLUTION_Y) {
             this.platforms.remove(i);
+            p.el.remove();
           }
       }
 
@@ -175,7 +187,9 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     this.gameOverEl.find('.text').text('Score: '+ Math.round(this.total_y_vel));
     //this.gameOverEl.css('visibility', 'visible');
 
-    this.gameOverEl.toggleClass('center');
+    if (this.gameOverEl.hasClass('center') === false) {
+      this.gameOverEl.addClass('center');
+    }
 
     this.freezeGame();
 
@@ -191,7 +205,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
    */
   Game.prototype.freezeGame = function() {
     this.isPlaying = false;
-    this.el.addClass('frozen');
+
   };
 
   /**
@@ -200,7 +214,6 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
   Game.prototype.unfreezeGame = function() {
     if (!this.isPlaying) {
       this.isPlaying = true;
-      this.el.removeClass('frozen');
 
       // Restart the onFrame loop
       this.lastFrame = +new Date() / 1000;
