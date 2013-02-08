@@ -1,4 +1,4 @@
-/*global $ define */
+/*global $ define, Howl */
 
 define(['controls', 'platform'], function(controls, Platform) {
 
@@ -11,7 +11,13 @@ define(['controls', 'platform'], function(controls, Platform) {
  
   var startedJumping = false; 
 
-  var jumpingSound = new Audio('../assets/Jump.wav');
+  //var jumpingSound = new Audio('../assets/Jump.wav');
+
+  var jumpingSound = new Howl({
+    urls: ['../assets/Jump.wav'],
+    autoplay: false,
+    loop: false,
+  });
 
   var Player = function(el, game) {
     this.collidedPlatform = null;

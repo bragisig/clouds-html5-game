@@ -1,4 +1,4 @@
-/*global define, alert */
+/*global define, alert, Howler */
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {
@@ -15,8 +15,6 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
   var increaseDiff = 0;
   var INITIAL_NEW_PLATFORM_INTERVAL = 30;
   var newPlatformInterval = 0;
-
-  var inGameMusic = new Audio('../assets/Theme_1.mp3');
 
   /**
    * Main game class.
@@ -36,9 +34,6 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     this.setupGameScreens(el);
 
     this.setupBackgrounds();
-
-    inGameMusic.loop = true;   
-    // inGameMusic.play(); 
 
     this.freezeGame();
 
@@ -77,9 +72,10 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
 
   Game.prototype.setupGameScreens = function(gameEl) {
     self = this;
-    
     this.gameOverEl = gameEl.find('.gameOver');
+    
     this.gameOverEl.on('webkitTransitionEnd', this.onGameOverTransitionEnd.bind(this, this.gameOverEl));
+
     this.gameOverEl.find('.button').click(function() {
       self.reset();
     
@@ -89,7 +85,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     });
 
     this.mainScreenEl = gameEl.find('.mainScreen');
-    this.mainScreenEl.on('webkitTransitionEnd', this.onGameOverTransitionEnd.bind(this, this.mainScreenEl));
+    this.gameOverEl.on('webkitTransitionEnd', this.onGameOverTransitionEnd.bind(this, this.gameOverEl));
     this.mainScreenEl.toggleClass('center');
     this.mainScreenEl.find('.button').click(function() {
       self.mainScreenEl.toggleClass('center');
