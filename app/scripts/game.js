@@ -69,20 +69,27 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     this.backgroundsEl.append(backgr.el);
   }
 
+  Game.prototype.onGameOverTransitionEnd = function(el) {
+      if (el.hasClass('center') === false) {
+        this.unfreezeGame();
+      }; 
+  };
+
   Game.prototype.setupGameScreens = function(gameEl) {
     self = this;
+    
     this.gameOverEl = gameEl.find('.gameOver');
+    this.gameOverEl.on('webkitTransitionEnd', this.onGameOverTransitionEnd.bind(this, this.gameOverEl));
     this.gameOverEl.find('.button').click(function() {
       self.reset();
-      
+    
       if (self.gameOverEl.hasClass('center') === true) {
         self.gameOverEl.removeClass('center');
-      };
-
-      self.unfreezeGame();
+      }; 
     });
 
     this.mainScreenEl = gameEl.find('.mainScreen');
+    this.mainScreenEl.on('webkitTransitionEnd', this.onGameOverTransitionEnd.bind(this, this.mainScreenEl));
     this.mainScreenEl.toggleClass('center');
     this.mainScreenEl.find('.button').click(function() {
       self.mainScreenEl.toggleClass('center');
@@ -144,7 +151,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
 
     this.player.reset();
 
-    Controls.resetKeys();
+    Controls.reset();
   };
 
   /**
@@ -159,6 +166,7 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
         delta = now - this.lastFrame;
     this.lastFrame = now;
 
+    Controls.onFrame();
     var playerInfo = this.player.onFrame(delta);
     
     //Is the player moving upwards, then update platforms

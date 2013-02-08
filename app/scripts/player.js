@@ -9,7 +9,7 @@ define(['controls', 'platform'], function(controls, Platform) {
   var GRAVITY = 2000;
   var PLAYER_MIN_Y = 200;
  
-  var spaceHasBeenPressed = false; 
+  var startedJumping = false; 
 
   var jumpingSound = new Audio('../assets/Jump.wav');
 
@@ -19,29 +19,29 @@ define(['controls', 'platform'], function(controls, Platform) {
     this.game = game;
     this.pos = { x: 0, y: 0 };
     this.vel = { x: 0, y: 0 };
+
+    controls.on('jump', this.onJump.bind(this))
   };
 
+  Player.prototype.onJump = function() {
+    startedJumping = true;
+  }
+
   Player.prototype.reset = function() {
-    spaceHasBeenPressed = false;
+    startedJumping = false;
     this.pos = {x: 140, y: 418};
+    this.vel.x = 0;
+    this.vel.y = 0;
   }
 
   Player.prototype.onFrame = function(delta) {
     // Player input
-    if (controls.keys.right) {
-      this.vel.x = PLAYER_SPEED;
-    } else if (controls.keys.left) {
-      this.vel.x = -PLAYER_SPEED;
-    } else {
-      this.vel.x = 0;
+    if (startedJumping) { 
+      this.vel.x = controls.inputVec.x * PLAYER_SPEED;
     }
 
-    if (controls.keys.space && !spaceHasBeenPressed) {
-      spaceHasBeenPressed = true;
-    }
-
-    // Jump
-    if (spaceHasBeenPressed && this.vel.y === 0) {
+     // Jump
+    if (startedJumping && this.vel.y === 0) {
       if (!!this.collidedPlatform) {
         JUMP_VELOCITY = this.collidedPlatform.getJumpVelocity();
       }

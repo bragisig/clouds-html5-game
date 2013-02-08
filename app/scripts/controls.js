@@ -1,4 +1,4 @@
-/*global define, $ */
+/*global define, $, asEvented */
 
 define([], function() {
 
@@ -10,32 +10,77 @@ define([], function() {
     40: 'down'
   };
 
+  var FULL_ANGLE = 20;
+
   /**
    * Controls singleton class.
    * @constructor
    */
   var Controls = function() {
-    this.spacePressed = false;
-    this.keys = {};
+    this.reset();
 
     $(window)
       .on('keydown', this.onKeyDown.bind(this))
-      .on('keyup', this.onKeyUp.bind(this));
+      .on('keyup', this.onKeyUp.bind(this))
+      .on('deviceorientation', this.onOrientation.bind(this))
+      .on('touchstart', this.onTouch.bind(this));
   };
+
+  asEvented.call(Controls.prototype);
 
   Controls.prototype.onKeyDown = function(e) {
     if (e.keyCode in KEYS) {
-      this.keys[KEYS[e.keyCode]] = true;
+      var key = KEYS[e.keyCode];
+      this.keys[key] = true;
+    }
+
+    if (key === 'space') {
+      this.trigger('jump');
     }
   };
 
   Controls.prototype.onKeyUp = function(e) {
     if (e.keyCode in KEYS) {
-      this.keys[KEYS[e.keyCode]] = false;
+      var key = KEYS[e.keyCode];
+      this.keys[key] = false;
     }
   };
 
-  Controls.prototype.resetKeys = function() {
+  Controls.prototype.onTouch = function(e) {
+    this.trigger('jump');
+  };
+
+  Controls.prototype.onOrientation = function(e) {
+    var degree = e.gamma;
+
+    if (window.orientation) {
+      var dir = window.orientation / 90;
+      degree = e.beta * dir;
+    }
+
+    var speed = degree / FULL_ANGLE;
+    this.tilt = Math.max(Math.min(speed, 1), -1);
+  };
+
+  Controls.prototype.onFrame = function() {
+    if (this.keys.right) {
+      this.inputVec.x = 1;
+    } else if (this.keys.left) {
+      this.inputVec.x = -1;
+    } else {
+      this.inputVec.x = 0;
+    }
+
+    if (this.inputVec.x === 0) {
+      this.inputVec.x = this.tilt;
+    }
+  };
+
+  Controls.prototype.reset = function() {
+    this.inputVec = { x: 0, y: 0 };
+    this.tilt = 0;
+
+    this.spacePressed = false;
     this.keys = {};
   }
 
