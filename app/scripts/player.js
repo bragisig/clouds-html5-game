@@ -32,6 +32,8 @@ define(['controls', 'platform'], function(controls, Platform) {
     this.pos = {x: 140, y: 418};
     this.vel.x = 0;
     this.vel.y = 0;
+
+    this.updateUI();
   }
 
   Player.prototype.onFrame = function(delta) {
@@ -73,10 +75,13 @@ define(['controls', 'platform'], function(controls, Platform) {
     // Check collisions
     this.checkPlatforms(oldY);
 
-    // Update UI.
-    this.el.css(transform, 'translate(' + this.pos.x + 'px,' + this.pos.y + 'px)');
+    this.updateUI();
 
     return { 'velY': velY, 'movingUpwards': movingUpwards };
+  };
+
+  Player.prototype.updateUI = function() {
+    this.el.css(transform, 'translate(' + this.pos.x + 'px,' + this.pos.y + 'px)');
   };
 
   Player.prototype.checkPlatforms = function(oldY) {
