@@ -11,8 +11,6 @@ define(['controls', 'platform'], function(controls, Platform) {
  
   var startedJumping = false; 
 
-  //var jumpingSound = new Audio('../assets/Jump.wav');
-
   var jumpingSound = new Howl({
     urls: ['../assets/Jump.wav'],
     autoplay: false,
