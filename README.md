@@ -5,6 +5,8 @@ A project in App Development in HTML5 at Reykjavik University. Based on a boiler
 
 The work was done by myself, Bragi Fannar Sigurðsson.
 
+Game graphics from http://www.123rf.com
+
 The game can be played here: http://bfs.einfalt.is/
 
 Features implemented
