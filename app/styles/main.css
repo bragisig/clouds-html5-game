@@ -1,0 +1,231 @@
+/* line 6, ../app/styles/main.scss */
+html {
+  background: #ADE9F4;
+  padding: 0px;
+  margin: 0px;
+}
+
+/* line 12, ../app/styles/main.scss */
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
+/* line 17, ../app/styles/main.scss */
+.top {
+  position: absolute;
+  padding: 0px;
+  margin: 0px;
+  top: 0;
+  width: 100%;
+  height: 346px;
+  background: url("../assets/bg3_b.jpg") repeat #ade9f4;
+}
+
+/* line 27, ../app/styles/main.scss */
+.bottom {
+  position: absolute;
+  padding: 0px;
+  margin: 0px;
+  bottom: 0;
+  width: 100%;
+  height: 282px;
+  background: url("../assets/bg3_a.jpg") repeat #ade9f4;
+}
+
+/* line 37, ../app/styles/main.scss */
+.container {
+  left: 50%;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  width: 320px;
+  height: 480px;
+  margin-left: -160px;
+  margin-top: -240px;
+  border: solid 10px rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+/* line 52, ../app/styles/main.scss */
+.movingBackground1 {
+  position: absolute;
+  width: 320px;
+  height: 480px;
+  background-color: red;
+  background: url("../assets/bg1.jpg") no-repeat;
+}
+
+/* line 60, ../app/styles/main.scss */
+.movingBackground2 {
+  position: absolute;
+  width: 320px;
+  height: 480px;
+  background-color: red;
+  background: url("../assets/bg2.jpg") no-repeat;
+}
+
+/* line 68, ../app/styles/main.scss */
+.platform1 {
+  position: absolute;
+  background: url("../assets/cloud1.png") no-repeat;
+}
+
+/* line 74, ../app/styles/main.scss */
+.platform2 {
+  position: absolute;
+  background: url("../assets/cloud2.png") no-repeat;
+}
+
+/* line 80, ../app/styles/main.scss */
+.platform3 {
+  position: absolute;
+  background: url("../assets/cloud3.png") no-repeat;
+}
+
+/* line 86, ../app/styles/main.scss */
+.platform4 {
+  position: absolute;
+  background: url("../assets/cloud4.png") no-repeat;
+}
+
+/* line 92, ../app/styles/main.scss */
+.platform5 {
+  position: absolute;
+  background: url("../assets/cloud5.png") no-repeat;
+}
+
+/* line 98, ../app/styles/main.scss */
+.platform6 {
+  position: absolute;
+  background: url("../assets/cloud6.png") no-repeat;
+}
+
+/* line 104, ../app/styles/main.scss */
+.player {
+  height: 91px;
+  width: 80px;
+  left: 0;
+  margin-left: -40px;
+  margin-top: -91px;
+  position: absolute;
+  top: 0;
+  background: url("../assets/player.png") no-repeat;
+}
+/* line 115, ../app/styles/main.scss */
+.player div {
+  margin: 0;
+  padding: 0;
+}
+/* line 116, ../app/styles/main.scss */
+.player div div {
+  background: #A4CA39;
+  position: relative;
+}
+
+/* line 119, ../app/styles/main.scss */
+.scoreboard {
+  position: absolute;
+  width: 100px;
+  height: 30px;
+  top: 0px;
+  left: 210px;
+  background-color: transparent;
+  font-family: 'Devonshire', cursive;
+  text-align: right;
+  font-size: 26px;
+  color: #257CB1;
+}
+
+/* line 133, ../app/styles/main.scss */
+.button {
+  padding: 2px 15px 2px 15px;
+  border: solid 4px rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  background-color: rgba(173, 233, 244, 0.8);
+  font-size: 30px;
+}
+
+/* line 141, ../app/styles/main.scss */
+.baseGameScreen, .mainScreen, .gameOver {
+  position: absolute;
+  width: 320px;
+  height: 480px;
+  margin-left: 0px;
+  margin-top: 0px;
+  border-radius: 0px;
+  background-color: rgba(0, 0, 0, 0.9);
+  font-family: 'Devonshire', cursive;
+  text-align: center;
+  color: white;
+  padding-top: 30%;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 1s ease;
+}
+
+/* line 156, ../app/styles/main.scss */
+.mainScreen {
+  margin-left: -320px;
+}
+/* line 160, ../app/styles/main.scss */
+.mainScreen .headline {
+  font-size: 54px;
+  width: 100%;
+  display: block;
+}
+/* line 166, ../app/styles/main.scss */
+.mainScreen .text {
+  font-size: 24px;
+  width: 100%;
+  display: block;
+  margin-bottom: 20px;
+}
+/* line 173, ../app/styles/main.scss */
+.mainScreen .usernameDiv {
+  margin-bottom: 20px;
+}
+/* line 177, ../app/styles/main.scss */
+.mainScreen label {
+  font-size: 20px;
+}
+/* line 181, ../app/styles/main.scss */
+.mainScreen .username {
+  width: 120px;
+  margin-left: 5px;
+}
+/* line 186, ../app/styles/main.scss */
+.mainScreen.center {
+  margin-left: 0%;
+}
+/* line 190, ../app/styles/main.scss */
+.mainScreen.left {
+  margin-left: 100%;
+}
+
+/* line 195, ../app/styles/main.scss */
+.gameOver {
+  margin-left: 320px;
+}
+/* line 200, ../app/styles/main.scss */
+.gameOver .headline {
+  font-size: 44px;
+  width: 100%;
+  display: block;
+}
+/* line 206, ../app/styles/main.scss */
+.gameOver .text {
+  font-size: 36px;
+  width: 100%;
+  display: block;
+  margin-bottom: 20px;
+}
+/* line 213, ../app/styles/main.scss */
+.gameOver.center {
+  margin-left: 0%;
+}
+/* line 217, ../app/styles/main.scss */
+.gameOver.right {
+  margin-left: 100%;
+}
