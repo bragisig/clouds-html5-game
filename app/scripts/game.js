@@ -88,8 +88,6 @@ define(['player', 'platform', 'controls', 'background'], function(Player, Platfo
     this.gameOverEl.on('webkitTransitionEnd', this.onGameOverTransitionEnd.bind(this, this.gameOverEl));
     this.mainScreenEl.toggleClass('center');
     this.mainScreenEl.find('.button').click(function() {
-      self.username = gameEl.find('input#username').val();
-      alert(self.username);
       self.mainScreenEl.toggleClass('center');
       self.unfreezeGame();
     });

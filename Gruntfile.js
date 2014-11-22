@@ -81,7 +81,12 @@ module.exports = function (grunt) {
                             connect().use('/bower_components', connect.static('./bower_components')),
                             connect.static(config.app)
                         ];
-                    }
+                    },
+                    open: true,
+                    base: [
+                        '.tmp',
+                        '<%= config.app %>'
+                    ]
                 }
             },
             test: {
@@ -199,7 +204,8 @@ module.exports = function (grunt) {
                         '<%= config.dist %>/styles/{,*/}*.css',
                         '<%= config.dist %>/images/{,*/}*.*',
                         '<%= config.dist %>/styles/fonts/{,*/}*.*',
-                        '<%= config.dist %>/*.{ico,png}'
+                        '<%= config.dist %>/*.{ico,png}',
+                        '<%= config.dist %>/assets/!*.wav'
                     ]
                 }
             }
@@ -306,6 +312,7 @@ module.exports = function (grunt) {
                         '*.{ico,png,txt}',
                         '.htaccess',
                         'images/{,*/}*.webp',
+                        'assets/{,*/}*.*',
                         '{,*/}*.html',
                         'styles/fonts/{,*/}*.*'
                     ]
@@ -368,7 +375,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-usemin');
     grunt.loadNpmTasks('grunt-concurrent');
-    //grunt.loadNpmTasks('grunt-autoprefixer');
+    grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -393,7 +400,7 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'concurrent:server',
-            //'autoprefixer',
+            'autoprefixer',
             'connect:livereload',
             'watch'
         ]);
@@ -440,7 +447,7 @@ module.exports = function (grunt) {
         'clean:dist',
         'useminPrepare',
         'concurrent:dist',
-        //'autoprefixer',
+        'autoprefixer',
         'concat',
         'requirejs:dist', // <- added now
         'cssmin',
