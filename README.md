@@ -7,8 +7,6 @@ The work was done by myself, Bragi Fannar Sigurðsson.
 
 Game graphics from http://www.123rf.com
 
-The game can be played here: http://bfs.einfalt.is/
-
 Features implemented
 --------------------
 - Random platforms generation
